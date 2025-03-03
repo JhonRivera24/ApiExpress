@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
@@ -8,14 +10,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: 'mysql-186aa288-tortilleria.d.aivencloud.com',  // Dirección de tu servidor en la nube
-    user: 'avnadmin',  // Usuario proporcionado
-    password: 'AVNS_8bdNGWEWD3ltmU0CZPs',  // Contraseña proporcionada
-    database: 'tortillas',  // Nombre de la base de datos
-    port: 14038,  // Puerto proporcionado
-    ssl: {
-        rejectUnauthorized: false  // Especificar que la conexión usa SSL
-    }
+    host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 
