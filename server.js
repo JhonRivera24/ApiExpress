@@ -10,11 +10,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
+    host: 'mysql-186aa288-tortilleria.d.aivencloud.com',
+    user: 'avnadmin',
+    password: 'AVNS_8bdNGWEWD3ltmU0CZPs',
+    database: 'tortillas',
+    port: 14038,
     ssl: {
         rejectUnauthorized: false
     }
