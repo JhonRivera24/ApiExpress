@@ -35,20 +35,21 @@ app.get("/empleados", (req, res) => {
 });
 
 // Agregar empleado
+// Agregar empleado
 app.post("/empleados", (req, res) => {
-    const { nombre, puesto, edad, domicilio } = req.body;
-    db.query("INSERT INTO empleados (nombre, puesto, edad, domicilio) VALUES (?, ?, ?, ?)",
-        [nombre, puesto, edad, domicilio], (err, result) => {
+    const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
+    db.query("INSERT INTO empleados (nombre, puesto, fecha_nacimiento, domicilio) VALUES (?, ?, ?, ?)",
+        [nombre, puesto, fecha_nacimiento, domicilio], (err, result) => {
             if (err) throw err;
-            res.json({ id: result.insertId, nombre, puesto, edad, domicilio });
+            res.json({ id: result.insertId, nombre, puesto, fecha_nacimiento, domicilio });
         });
 });
 
 // Editar empleado
 app.put("/empleados/:id", (req, res) => {
-    const { nombre, puesto, edad, domicilio } = req.body;
-    db.query("UPDATE empleados SET nombre=?, puesto=?, edad=?, domicilio=? WHERE id=?",
-        [nombre, puesto, edad, domicilio, req.params.id], (err) => {
+    const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
+    db.query("UPDATE empleados SET nombre=?, puesto=?, fecha_nacimiento=?, domicilio=? WHERE id=?",
+        [nombre, puesto, fecha_nacimiento, domicilio, req.params.id], (err) => {
             if (err) throw err;
             res.json({ mensaje: "Empleado actualizado" });
         });
