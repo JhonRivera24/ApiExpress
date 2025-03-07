@@ -28,18 +28,13 @@ db.connect(err => {
 
 // Obtener todos los empleados
 app.get("/empleados", (req, res) => {
-    conexion.query(
-        "SELECT id, nombre, puesto, domicilio, DATE_FORMAT(fecha_nacimiento, '%Y-%m-%d') AS fechaNacimiento FROM empleados",
-        (error, resultados) => {
-            if (error) {
-                console.error("Error en la consulta:", error);
-                return res.status(500).json({ error: "Error obteniendo empleados" });  // 📌 Devolver JSON en caso de error
-            }
-            res.json(resultados);
-        }
-    );
+    db.query("SELECT * FROM empleados", (err, results) => {
+        if (err) throw err;
+        res.json(results);
+    });
 });
 
+// Agregar empleado
 // Agregar empleado
 app.post("/empleados", (req, res) => {
     const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
