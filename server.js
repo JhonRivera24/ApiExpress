@@ -28,13 +28,12 @@ db.connect(err => {
 
 // Obtener todos los empleados
 app.get("/empleados", (req, res) => {
-    db.query("SELECT * FROM empleados", (err, results) => {
-        if (err) throw err;
-        res.json(results);
+    conexion.query("SELECT id, nombre, puesto, domicilio, DATE_FORMAT(fecha_nacimiento, '%Y-%m-%d') AS fechaNacimiento FROM empleados", (error, resultados) => {
+        if (error) throw error;
+        res.json(resultados);
     });
 });
 
-// Agregar empleado
 // Agregar empleado
 app.post("/empleados", (req, res) => {
     const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
