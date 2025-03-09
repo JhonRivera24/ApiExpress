@@ -28,31 +28,42 @@ db.connect(err => {
 
 // Obtener todos los empleados
 app.get("/empleados", (req, res) => {
-    db.query("SELECT * FROM empleados", (err, results) => {
-        if (err) throw err;
-        res.json(results);
-    });
+    db.query(
+        `SELECT empleados.id, empleados.nombre, empleados.puesto, empleados.domicilio, 
+                sexo.nombre AS sexo 
+         FROM empleados 
+         LEFT JOIN sexo ON empleados.sexo_id = sexo.id`, 
+        (err, results) => {
+            if (err) throw err;
+            res.json(results);
+        }
+    );
 });
 
 // Agregar empleado
-// Agregar empleado
 app.post("/empleados", (req, res) => {
-    const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
-    db.query("INSERT INTO empleados (nombre, puesto, fecha_nacimiento, domicilio) VALUES (?, ?, ?, ?)",
-        [nombre, puesto, fecha_nacimiento, domicilio], (err, result) => {
+    const { nombre, puesto, domicilio, sexo_id } = req.body;
+    db.query(
+        "INSERT INTO empleados (nombre, puesto, domicilio, sexo_id) VALUES (?, ?, ?, ?)",
+        [nombre, puesto, domicilio, sexo_id], 
+        (err, result) => {
             if (err) throw err;
-            res.json({ id: result.insertId, nombre, puesto, fecha_nacimiento, domicilio });
-        });
+            res.json({ id: result.insertId, nombre, puesto, domicilio, sexo_id });
+        }
+    );
 });
 
 // Editar empleado
 app.put("/empleados/:id", (req, res) => {
-    const { nombre, puesto, fecha_nacimiento, domicilio } = req.body;
-    db.query("UPDATE empleados SET nombre=?, puesto=?, fecha_nacimiento=?, domicilio=? WHERE id=?",
-        [nombre, puesto, fecha_nacimiento, domicilio, req.params.id], (err) => {
+    const { nombre, puesto, domicilio, sexo_id } = req.body;
+    db.query(
+        "UPDATE empleados SET nombre=?, puesto=?, domicilio=?, sexo_id=? WHERE id=?",
+        [nombre, puesto, domicilio, sexo_id, req.params.id], 
+        (err) => {
             if (err) throw err;
             res.json({ mensaje: "Empleado actualizado" });
-        });
+        }
+    );
 });
 
 // Eliminar empleado
